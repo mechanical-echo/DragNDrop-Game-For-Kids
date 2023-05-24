@@ -3,18 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Objects : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler {
+public class Objects : MonoBehaviour{
+    public GameObject garbage;
+    public GameObject ambulance;
+    public GameObject bus;
 
-	public Objects objectScript;			//Save pointer uz Objects script
-    CanvasGroup canvasGroup;				//
-	RectTransform objectRT;					//location
-	void Start()
-	{
-		canvasGroup = GetComponent<CanvasGroup>();	//get canvasgroup from an object
-		objectRT = GetComponent<RectTransform>();	//get recttransform from an object
-	}
-	public void OnPointerDown(PointerEventData eventData) { }
-	public void OnBeginDrag(PointerEventData eventData) { }
-	public void OnDrag(PointerEventData eventData) { }
-	public void OnEndDrag(PointerEventData eventData) { }
+    [HideInInspector]
+    public Vector2 garbCoords;
+    [HideInInspector]
+    public Vector2 busCoords;
+    [HideInInspector]
+    public Vector2 ambCoords;
+
+    public Canvas canva;
+
+    public AudioSource audioSource;
+    public AudioClip[] audioClips;
+
+    [HideInInspector]
+    public bool rightPlace = false;
+
+    public GameObject lastDraggableObject;
+
+    void Start()
+    {
+        garbCoords = garbage.GetComponent<RectTransform>().localPosition;
+        ambCoords = ambulance.GetComponent<RectTransform>().localPosition;
+        busCoords = bus.GetComponent<RectTransform>().localPosition;
+
+    }
 }
