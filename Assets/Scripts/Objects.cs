@@ -30,6 +30,6 @@ public class Objects : MonoBehaviour{
         garbCoords = garbage.GetComponent<RectTransform>().localPosition;
         ambCoords = ambulance.GetComponent<RectTransform>().localPosition;
         busCoords = bus.GetComponent<RectTransform>().localPosition;
-
+        
     }
 }
