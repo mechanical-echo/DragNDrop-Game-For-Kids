@@ -6,11 +6,10 @@ using UnityEngine.EventSystems;
 
 public class SnapPlace : MonoBehaviour, IDropHandler
 {
-    private float z_rot_place, z_rot_obj, rot_diff, x_scale_diff, y_scale_diff;
+    private float z_rot_place, z_rot_obj, rot_diff, x_scale_diff, y_scale_diff; 
     private Vector2 scale_place, scale_obj;
-
+    public Win _win;
     public Objects _object;
-    private int amount_obj = 12;
 
     public void OnDrop(PointerEventData _event)
     {
@@ -44,11 +43,12 @@ public class SnapPlace : MonoBehaviour, IDropHandler
 
                     Debug.Log("LOG : Snapping Object");
 
-                    amount_obj++;                                                                    //atzimējam to, ka vēl viena mašīna ir ielikta pareizajā vietā
-                    if (amount_obj == 12)                                                            //ja skaits ir vienāds ar kopējo mašīnu skaitu, beidzām spēli
+                    _win.amount_obj++;                                                                    //atzimējam to, ka vēl viena mašīna ir ielikta pareizajā vietā
+                    if (_win.amount_obj == 12)                                                            //ja skaits ir vienāds ar kopējo mašīnu skaitu, beidzām spēli
                     {
-                        
+                        _win.endGame();
                     }
+                    Debug.Log("LOG : Object Amount = " + _win.amount_obj);
                     int which = -1;                                                                    //skaņas kārtas numurs
                     switch (_event.pointerDrag.tag)                                                  //salīdzinām tagu un startējam atbilstošo skaņu
                     {
@@ -99,7 +99,7 @@ public class SnapPlace : MonoBehaviour, IDropHandler
                 else
                 {
                     Debug.Log("LOG : Correct Placement, Invalid Rot/Scale");
-                    Debug.Log("LOG : ");
+                    Debug.Log("LOG : x_sc_diff = " + x_scale_diff + ", y_sc_diff = " + y_scale_diff + ", rot_diff = " + rot_diff);
                 }
 
             }

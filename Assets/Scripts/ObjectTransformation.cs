@@ -6,7 +6,8 @@ using UnityEngine;
 public class ObjectTransformation : MonoBehaviour
 {
     public Objects objektuSkripts;
-
+    public float scale = 0.0005f;
+    public float rotate = 9f;
     // Update is called once per frame
     void Update()
     {
@@ -14,12 +15,12 @@ public class ObjectTransformation : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Z))
             {
-                objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.Rotate(0, 0, Time.deltaTime * 9f);
+                objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.Rotate(0, 0, Time.deltaTime * rotate);
             }
 
             if (Input.GetKey(KeyCode.X))
             {
-                objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.Rotate(0, 0, -Time.deltaTime * 9f);
+                objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.Rotate(0, 0, -Time.deltaTime * rotate);
             }   
 
             if (Input.GetKey(KeyCode.UpArrow))
@@ -28,7 +29,7 @@ public class ObjectTransformation : MonoBehaviour
                 {
                     objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale
                     = new Vector2(objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x,
-                        objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y + 0.001f);
+                        objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y + scale);
                 }
             }
 
@@ -38,7 +39,7 @@ public class ObjectTransformation : MonoBehaviour
                 {
                     objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale
                     = new Vector2(objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x,
-                        objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y - 0.001f);
+                        objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y - scale);
                 }
             }
 
@@ -47,7 +48,7 @@ public class ObjectTransformation : MonoBehaviour
                 if (objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x > 0.3f)
                 {
                     objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale
-                    = new Vector2(objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x - 0.001f,
+                    = new Vector2(objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x - scale,
                         objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y);
                 }
             }
@@ -57,7 +58,7 @@ public class ObjectTransformation : MonoBehaviour
                 if (objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x < 1.5f)
                 {
                     objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale
-                    = new Vector2(objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x + 0.001f,
+                    = new Vector2(objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x + scale,
                         objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y);
                 }
             }
