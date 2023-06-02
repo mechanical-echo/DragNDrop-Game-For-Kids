@@ -4,15 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-
 public class SnapPlace : MonoBehaviour, IDropHandler
 {
     private float vietasZrot, velkObjZrot, rotacijasStarpiba, xIzmeruStarp, yIzmeruStarp;
     private Vector2 vietasIzm, velkObjIzm;
     
     public Objects objektuSkripts;
+    public int masinuSkaits=0;
 
-    
+    public GameObject WinScreen;
+    public void gameEnd()
+    {
+        //TODO win screen
+        //TODO reload game (maybe, need to load scene from the start?)
+    }
     public void OnDrop(PointerEventData notikums)
     {
         
@@ -34,12 +39,16 @@ public class SnapPlace : MonoBehaviour, IDropHandler
                    && (xIzmeruStarp <= 0.1 && yIzmeruStarp <= 0.1))
                 {
                     objektuSkripts.rightPlace = true;
-                    notikums.pointerDrag.GetComponent<RectTransform>().anchoredPosition
-                                = GetComponent<RectTransform>().anchoredPosition;
-                    notikums.pointerDrag.GetComponent<RectTransform>().localRotation
-                                = GetComponent<RectTransform>().localRotation;
-                    notikums.pointerDrag.GetComponent<RectTransform>().localScale
-                    = GetComponent<RectTransform>().localScale;
+                    notikums.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+                    notikums.pointerDrag.GetComponent<RectTransform>().localRotation = GetComponent<RectTransform>().localRotation;
+                    notikums.pointerDrag.GetComponent<RectTransform>().localScale = GetComponent<RectTransform>().localScale;
+
+                    Debug.Log("correct place, correct scale and rot, snapping into place...");
+                    masinuSkaits++;         //atzimejam to, cik masinas ir ieliktas pareizaja vieta
+                    if (masinuSkaits == 11) //ja skaits ir vienads ar kopejo masinu skaitu, beidzam speli
+                    {
+                        gameEnd();
+                    }
 
                     switch (notikums.pointerDrag.tag)
                     {
@@ -54,7 +63,8 @@ public class SnapPlace : MonoBehaviour, IDropHandler
                         case "Bus":
                             objektuSkripts.audioSource.PlayOneShot(objektuSkripts.audioClips[3]);
                             break;
-
+                            //TODO add new tags (3/11)
+                            //TODO add and check audio
                         default:
                             Debug.Log("Nedefinēts tags!");
                             break;
