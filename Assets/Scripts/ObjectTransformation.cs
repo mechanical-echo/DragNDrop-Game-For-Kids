@@ -24,7 +24,7 @@ public class ObjectTransformation : MonoBehaviour
 
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                if (objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y < 0.8f)
+                if (objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y < 1.5f)
                 {
                     objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale
                     = new Vector2(objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x,
@@ -54,7 +54,7 @@ public class ObjectTransformation : MonoBehaviour
 
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                if (objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x < 0.8f)
+                if (objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x < 1.5f)
                 {
                     objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale
                     = new Vector2(objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x + 0.001f,

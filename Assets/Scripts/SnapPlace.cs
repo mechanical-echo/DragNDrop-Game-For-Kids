@@ -6,99 +6,151 @@ using UnityEngine.EventSystems;
 
 public class SnapPlace : MonoBehaviour, IDropHandler
 {
-    private float vietasZrot, velkObjZrot, rotacijasStarpiba, xIzmeruStarp, yIzmeruStarp;
-    private Vector2 vietasIzm, velkObjIzm;
-    
-    public Objects objektuSkripts;
-    public int masinuSkaits=0;
+    private float z_rot_place, z_rot_obj, rot_diff, x_scale_diff, y_scale_diff;
+    private Vector2 scale_place, scale_obj;
 
-    public GameObject WinScreen;
-    public void gameEnd()
+    public Objects _object;
+    private int amount_obj = 12;
+
+    public void OnDrop(PointerEventData _event)
     {
-        //TODO win screen
-        //TODO reload game (maybe, need to load scene from the start?)
-    }
-    public void OnDrop(PointerEventData notikums)
-    {
-        
-        if (notikums.pointerDrag != null)
+
+        if (_event.pointerDrag != null)
         {
-            
-            if (notikums.pointerDrag.tag.Equals(tag))
+
+            if (_event.pointerDrag.tag.Equals(tag))
             {
-                vietasZrot = notikums.pointerDrag.GetComponent<RectTransform>().eulerAngles.z;
-                velkObjZrot = GetComponent<RectTransform>().eulerAngles.z;
-                rotacijasStarpiba = Mathf.Abs(vietasZrot - velkObjZrot);
-                vietasIzm = notikums.pointerDrag.GetComponent<RectTransform>().localScale;
-                velkObjIzm = GetComponent<RectTransform>().localScale;
-                xIzmeruStarp = Mathf.Abs(vietasIzm.x - velkObjIzm.x);
-                yIzmeruStarp = Mathf.Abs(vietasIzm.y - velkObjIzm.y);
+                z_rot_place = _event.pointerDrag.GetComponent<RectTransform>().eulerAngles.z;       //vietas rotācija
+                z_rot_obj = GetComponent<RectTransform>().eulerAngles.z;                            //mašīnas rotācija
 
+                rot_diff = Mathf.Abs(z_rot_place - z_rot_obj);                                      //cik ir liela rotācijas strapība 
+                
+                scale_place = _event.pointerDrag.GetComponent<RectTransform>().localScale;          //vietas izmērs
+                scale_obj = GetComponent<RectTransform>().localScale;                               //mašīnas izmērs
+                
+                x_scale_diff = Mathf.Abs(scale_place.x - scale_obj.x);                              //garuma starpība
+                y_scale_diff = Mathf.Abs(scale_place.y - scale_obj.y);                              //platuma starpība
 
-                if ((rotacijasStarpiba <= 6 || (rotacijasStarpiba >= 354 && rotacijasStarpiba <= 360))
-                   && (xIzmeruStarp <= 0.1 && yIzmeruStarp <= 0.1))
-                {
-                    objektuSkripts.rightPlace = true;
-                    notikums.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
-                    notikums.pointerDrag.GetComponent<RectTransform>().localRotation = GetComponent<RectTransform>().localRotation;
-                    notikums.pointerDrag.GetComponent<RectTransform>().localScale = GetComponent<RectTransform>().localScale;
+                
 
-                    Debug.Log("correct place, correct scale and rot, snapping into place...");
-                    masinuSkaits++;         //atzimejam to, cik masinas ir ieliktas pareizaja vieta
-                    if (masinuSkaits == 11) //ja skaits ir vienads ar kopejo masinu skaitu, beidzam speli
+                if ((rot_diff <= 6 || (rot_diff >= 354 && rot_diff <= 360)) && (x_scale_diff <= 0.1 && y_scale_diff <= 0.1))
+                {                                                                                   //ja starpības nav kritiski lielās
+
+                    _object.rightPlace = true;                                                      //mašīna ir nolikta pareizājā vietā
+
+                    _event.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;             //mašīna kļūst tāda paša izmērā un rotācijā kā tā vietā
+                    _event.pointerDrag.GetComponent<RectTransform>().localRotation = GetComponent<RectTransform>().localRotation;
+                    _event.pointerDrag.GetComponent<RectTransform>().localScale = GetComponent<RectTransform>().localScale;
+
+                    Debug.Log("LOG : Snapping Object");
+
+                    amount_obj++;                                                                    //atzimējam to, ka vēl viena mašīna ir ielikta pareizajā vietā
+                    if (amount_obj == 12)                                                            //ja skaits ir vienāds ar kopējo mašīnu skaitu, beidzām spēli
                     {
-                        gameEnd();
+                        
                     }
-
-                    switch (notikums.pointerDrag.tag)
+                    int which = -1;                                                                    //skaņas kārtas numurs
+                    switch (_event.pointerDrag.tag)                                                  //salīdzinām tagu un startējam atbilstošo skaņu
                     {
-                        case "Garbage":
-                            objektuSkripts.audioSource.PlayOneShot(objektuSkripts.audioClips[1]);
-                            break;
-
                         case "Ambulance":
-                            objektuSkripts.audioSource.PlayOneShot(objektuSkripts.audioClips[2]);
+                            which = 0;
                             break;
-
+                        case "B2":
+                            which = 1;
+                            break;
                         case "Bus":
-                            objektuSkripts.audioSource.PlayOneShot(objektuSkripts.audioClips[3]);
+                            which = 2;
                             break;
-                            //TODO add new tags (3/11)
-                            //TODO add and check audio
+                        case "Cement truck":
+                            which = 3;
+                            break;
+                        case "E46":
+                            which = 4;
+                            break;
+                        case "Escavator":
+                            which = 5;
+                            break;
+                        case "Firefighters":
+                            which = 6;
+                            break;
+                        case "Garbage truck":
+                            which = 7;
+                            break;
+                        case "Police":
+                            which = 8;
+                            break;
+                        case "Tractor G":
+                            which = 9;
+                            break;
+                        case "Tractor Y":
+                            which = 10;
+                            break;
+                        case "Toyota Corolla":
+                            which = 11;
+                            break;
                         default:
-                            Debug.Log("Nedefinēts tags!");
+                            Debug.Log("ERR : Unknown tag : Start Audio");
                             break;
                     }
+                    if (which != -1)
+                        _object.audioSource.PlayOneShot(_object.audioClips[which]);
 
+                }
+                else
+                {
+                    Debug.Log("LOG : Correct Placement, Invalid Rot/Scale");
+                    Debug.Log("LOG : ");
                 }
 
             }
-            else
+            else                                                                                        //Tāda gadījumā, ja tagi nesakrīt (objekts nolikts nepareizajā vietā) 
             {
-                objektuSkripts.rightPlace = false;
-                objektuSkripts.audioSource.PlayOneShot(objektuSkripts.audioClips[0]);
+                _object.rightPlace = false;
+                _object.audioSource.PlayOneShot(_object.audioClips[12]);
 
-                switch (notikums.pointerDrag.tag)
+                switch (_event.pointerDrag.tag)                                                       //atgriežām mašīnu savā vietā
                 {
-                    case "Garbage":
-                        objektuSkripts.garbage.GetComponent<RectTransform>().localPosition
-                                = objektuSkripts.garbCoords;
-                        break;
-
                     case "Ambulance":
-                        objektuSkripts.ambulance.GetComponent<RectTransform>().localPosition
-                        = objektuSkripts.ambCoords;
+                        _object.obj_amb.GetComponent<RectTransform>().localPosition = _object.crd_amb;
                         break;
-
+                    case "B2":
+                        _object.obj_b2.GetComponent<RectTransform> ().localPosition =  _object.crd_b2;
+                        break;
                     case "Bus":
-                        objektuSkripts.bus.GetComponent<RectTransform>().localPosition
-                        = objektuSkripts.busCoords;
+                        _object.obj_bus.GetComponent<RectTransform>().localPosition = _object.crd_bus;
+                        break;
+                    case "Cement truck":
+                        _object.obj_cem.GetComponent<RectTransform>().localPosition = _object.crd_cem;
+                        break;
+                    case "E46":
+                        _object.obj_e46.GetComponent<RectTransform>().localPosition = _object.crd_e46;
+                        break;
+                    case "Escavator":
+                        _object.obj_esc.GetComponent<RectTransform>().localPosition = _object.crd_esc;
+                        break;
+                    case "Firefighters":
+                        _object.obj_fir.GetComponent<RectTransform>().localPosition = _object.crd_fir;
+                        break;
+                    case "Garbage truck":
+                        _object.obj_gar.GetComponent<RectTransform>().localPosition = _object.crd_gar;
+                        break;
+                    case "Police":
+                        _object.obj_pol.GetComponent<RectTransform>().localPosition = _object.crd_pol;
+                        break;
+                    case "Tractor G":
+                        _object.obj_trg.GetComponent<RectTransform>().localPosition = _object.crd_trg;
+                        break;
+                    case "Tractor Y":
+                        _object.obj_try.GetComponent<RectTransform>().localPosition = _object.crd_try;
+                        break;
+                    case "Toyota Corolla":
+                        _object.obj_toy.GetComponent<RectTransform>().localPosition = _object.crd_toy;
+                        break;
+                    default:
+                        Debug.Log("ERR : Unknown tag : Return Object To Start Position");
                         break;
 
-                    default:
-                        Debug.Log("Nedefinēts tags!");
-                        break;
-                }
+                } //switch end
 
             }
         }

@@ -4,16 +4,44 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Objects : MonoBehaviour{
-    public GameObject garbage;
-    public GameObject ambulance;
-    public GameObject bus;
+    public GameObject obj_amb;
+    public GameObject obj_b2;
+    public GameObject obj_bus;
+    public GameObject obj_cem;
+    public GameObject obj_e46;
+    public GameObject obj_esc;
+    public GameObject obj_fir;
+    public GameObject obj_gar;
+    public GameObject obj_pol;
+    public GameObject obj_toy;
+    public GameObject obj_trg;
+    public GameObject obj_try;
+
 
     [HideInInspector]
-    public Vector2 garbCoords;
+    public Vector2 crd_amb;
     [HideInInspector]
-    public Vector2 busCoords;
+    public Vector2 crd_b2;
     [HideInInspector]
-    public Vector2 ambCoords;
+    public Vector2 crd_bus;
+    [HideInInspector]
+    public Vector2 crd_cem;
+    [HideInInspector]
+    public Vector2 crd_e46;
+    [HideInInspector]
+    public Vector2 crd_esc;
+    [HideInInspector]
+    public Vector2 crd_fir;
+    [HideInInspector]
+    public Vector2 crd_gar;
+    [HideInInspector]
+    public Vector2 crd_pol;
+    [HideInInspector]
+    public Vector2 crd_toy;
+    [HideInInspector]
+    public Vector2 crd_trg;
+    [HideInInspector]
+    public Vector2 crd_try;
 
     public Canvas canva;
 
@@ -27,9 +55,18 @@ public class Objects : MonoBehaviour{
 
     void Start()
     {
-        garbCoords = garbage.GetComponent<RectTransform>().localPosition;
-        ambCoords = ambulance.GetComponent<RectTransform>().localPosition;
-        busCoords = bus.GetComponent<RectTransform>().localPosition;
-        
+        //saglabām katrai mašīnai savu sākuma pozīciju
+        crd_amb = obj_amb.GetComponent<RectTransform>().localPosition;
+        crd_b2  = obj_b2.GetComponent<RectTransform> ().localPosition;
+        crd_bus = obj_bus.GetComponent<RectTransform>().localPosition;
+        crd_cem = obj_cem.GetComponent<RectTransform>().localPosition;
+        crd_e46 = obj_e46.GetComponent<RectTransform>().localPosition;
+        crd_esc = obj_esc.GetComponent<RectTransform>().localPosition;
+        crd_fir = obj_fir.GetComponent<RectTransform>().localPosition;
+        crd_gar = obj_gar.GetComponent<RectTransform>().localPosition;
+        crd_pol = obj_pol.GetComponent<RectTransform>().localPosition;
+        crd_toy = obj_toy.GetComponent<RectTransform>().localPosition;
+        crd_trg = obj_trg.GetComponent<RectTransform>().localPosition;
+        crd_try = obj_try.GetComponent<RectTransform>().localPosition;
     }
 }
