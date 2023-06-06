@@ -26,6 +26,8 @@ public class MainMenu : MonoBehaviour {
 
 	void Update () {
 		//mainīt teksta krāsu pēc katrā kadra
-        text.GetComponent<Text>().color = new Color(Mathf.Sin(Time.time), Mathf.Cos(Time.time), Mathf.Tan(Time.time));
+		if(text!= null) { 
+			text.GetComponent<Text>().color = new Color(Mathf.Sin(Time.time), Mathf.Cos(Time.time), Mathf.Tan(Time.time));
+		}
     }
 }
