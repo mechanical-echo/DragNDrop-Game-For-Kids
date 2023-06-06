@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+/*----------------------------------------------------------------------------------------------------
+								 Skripts iespējai mainīt ainu
+ ----------------------------------------------------------------------------------------------------*/
 public class MainMenu : MonoBehaviour {
 	
 	public GameObject text;						//"welcome" teksts

@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
+/*----------------------------------------------------------------------------------------------------
+									Skripts patērēta laika aprēķināšanai
+ ----------------------------------------------------------------------------------------------------*/
 public class Timer : MonoBehaviour {
-	public static float timeStart;			//ar ko sakas laika atskaite (0)
-	public GameObject textBox;			//teksta elements, kura tiek izvadits rezultats
+	public static float timeStart;			//ar ko sākas laika atskaite (0)
+	public GameObject textBox;				//teksta elements, kurā tiek izvadīts rezultāts
 
-	private static string t;				//mainigais, kas uzglabs rezultejoso vertibu
+	private static string t;				//mainigais, kas uzglabs rezultējošo vērtību
 
 	void Start () {
 		timeStart = 0;
@@ -17,41 +20,38 @@ public class Timer : MonoBehaviour {
 	
     public static string getTime(bool asSeconds)
 	{
-        int sec, min, h;		//mainigie, nepieciesamie aprekinasanai
-        sec = Mathf.RoundToInt(timeStart);			//noapalojam laiku
-		if (asSeconds)
+        int sec, min, h;							//mainīgie nepieciešamie aprēķināšanai
+        sec = Mathf.RoundToInt(timeStart);			//noapaļojām laiku
+		
+		if (asSeconds)								//ja metodei tiek padota vērtība true - atgriežam tikai sekundes
 		{
 			return ""+sec;
 		}
-        h = sec / 3600;								//aprekinam stundas
-        sec -= h * 3600;							//cik sekundes paliek
-        min = sec / 60;								//ta pat ar minutem
-        sec -= min * 60;
-		string a, b, c;								//sadalam String uz trim dalam, lai parbaudit, kad ir jaieraksta nulles pirms skaitliem
-		if (sec < 10)
-		{
-			c = ":0" + sec;
-		} else
-			c = ":" + sec;
-		if (min < 10)
-		{
-			b = ":0" + min;
-		}
-		else
-			b = ":" + min;
-		if (h < 10)
-		{
-			a = "0" + h;
-		}
-		else
-			a = ""+ h;
-        t = a+b+c;
 
-		return t;									//atgriezam vertibu
+
+        h = sec / 3600;								//aprēķinām stundas
+        sec -= h * 3600;							//cik sekundes paliek 
+        min = sec / 60;								//tā pat ar minūtēm
+        sec -= min * 60;
+		
+		string a, b, c;								//sadalām String uz trim daļām, lai parbaudīt, kad ir jāpieraksta nulles pirms skaitļiem
+
+		if (sec < 10) c = ":0" + sec;
+		else	      c = ":" + sec;
+
+		if (min < 10) b = ":0" + min;
+		else          b = ":" + min;
+
+		if (h < 10)   a = "0" + h;
+		else          a = ""+ h;
+
+        t = a+b+c;									//saliekam visu kopā
+
+		return t;									//atgriežām vērtību
     }
 	void Update () {
-		timeStart += Time.deltaTime;				//cik ir pagajus laika
-		t= getTime(false);								//dabunam to vertibu pareizaja formata
-        textBox.GetComponent<Text>().text = t;							//izvadam ekranaa
+		timeStart += Time.deltaTime;				//laika starpība
+		t = getTime(false);							//dabunām to vērtību pareizajā formatā
+        textBox.GetComponent<Text>().text = t;		//izvadām ekranā
     }
 }

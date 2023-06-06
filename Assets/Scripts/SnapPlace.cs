@@ -4,20 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/*----------------------------------------------------------------------------------------------------
+                Šīs skripts ļauj spēlētājam nomest mašīnu pareizajā vieta vai nepareizājā vietā
+ ----------------------------------------------------------------------------------------------------*/
 public class SnapPlace : MonoBehaviour, IDropHandler
 {
-    private float z_rot_place, z_rot_obj, rot_diff, x_scale_diff, y_scale_diff; 
-    private Vector2 scale_place, scale_obj;
-    public Win _win;
-    public Objects _object;
+    private float z_rot_place, z_rot_obj, rot_diff, x_scale_diff, y_scale_diff;         //pozicijas un rotacijas mainīgie
+    private Vector2 scale_place, scale_obj;                                             //izmēra mainīgie
+    public Win _win;                                                                    //objekts, kas satur skriptu Win
+    public Objects _object;                                                             //objekts, kas satur skriptu Objects
 
-    public void OnDrop(PointerEventData _event)
+    public void OnDrop(PointerEventData _event)         //kad objekts ir nomests
     {
 
-        if (_event.pointerDrag != null)
+        if (_event.pointerDrag != null)                 //ja velkamais objekts nav null
         {
 
-            if (_event.pointerDrag.tag.Equals(tag))
+            if (_event.pointerDrag.tag.Equals(tag))     //ja tā tags sakrīt ar vietas tagu
             {
                 z_rot_place = _event.pointerDrag.GetComponent<RectTransform>().eulerAngles.z;       //vietas rotācija
                 z_rot_obj = GetComponent<RectTransform>().eulerAngles.z;                            //mašīnas rotācija
@@ -31,25 +34,29 @@ public class SnapPlace : MonoBehaviour, IDropHandler
                 y_scale_diff = Mathf.Abs(scale_place.y - scale_obj.y);                              //platuma starpība
 
                 
-
-                if ((rot_diff <= 6 || (rot_diff >= 354 && rot_diff <= 360)) && (x_scale_diff <= 0.1 && y_scale_diff <= 0.1))
-                {                                                                                   //ja starpības nav kritiski lielās
+                
+                if ((rot_diff <= 6 || (rot_diff >= 354 && rot_diff <= 360)) 
+                    && 
+                    (x_scale_diff <= 0.1 && y_scale_diff <= 0.1))                                   //ja starpības nav kritiski lielas
+                {                                                                                   
 
                     _object.rightPlace = true;                                                      //mašīna ir nolikta pareizājā vietā
 
-                    _event.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;             //mašīna kļūst tāda paša izmērā un rotācijā kā tā vietā
+                    _event.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;//mašīna kļūst tāda paša izmērā un rotācijā kā tā vietā
                     _event.pointerDrag.GetComponent<RectTransform>().localRotation = GetComponent<RectTransform>().localRotation;
                     _event.pointerDrag.GetComponent<RectTransform>().localScale = GetComponent<RectTransform>().localScale;
 
                     Debug.Log("LOG : Snapping Object");
 
-                    _win.amount_obj++;                                                                    //atzimējam to, ka vēl viena mašīna ir ielikta pareizajā vietā
-                    if (_win.amount_obj == 12)                                                            //ja skaits ir vienāds ar kopējo mašīnu skaitu, beidzām spēli
+                    _win.amount_obj++;                                                               //atzimējam to, ka vēl viena mašīna ir ielikta pareizajā vietā
+                    if (_win.amount_obj == 12)                                                       //ja skaits ir vienāds ar kopējo mašīnu skaitu, beidzām spēli
                     {
                         _win.endGame();
                     }
-                    Debug.Log("LOG : Object Amount = " + _win.amount_obj);
-                    int which = -1;                                                                    //skaņas kārtas numurs
+                    
+                    Debug.Log("LOG : Object Amount = " + _win.amount_obj);                           
+                    
+                    int which = -1;                                                                  //skaņas kārtas numurs
                     switch (_event.pointerDrag.tag)                                                  //salīdzinām tagu un startējam atbilstošo skaņu
                     {
                         case "Ambulance":
@@ -92,8 +99,8 @@ public class SnapPlace : MonoBehaviour, IDropHandler
                             Debug.Log("ERR : Unknown tag : Start Audio");
                             break;
                     }
-                    if (which != -1)
-                        _object.audioSource.PlayOneShot(_object.audioClips[which]);
+                    if (which != -1)    
+                        _object.audioSource.PlayOneShot(_object.audioClips[which]);                     //ja tads tags bija atrasts, ieslēdzam skaņu
 
                 }
                 else
@@ -103,12 +110,12 @@ public class SnapPlace : MonoBehaviour, IDropHandler
                 }
 
             }
-            else                                                                                        //Tāda gadījumā, ja tagi nesakrīt (objekts nolikts nepareizajā vietā) 
+            else//--------------------------------------------------------------------------------------//Tāda gadījumā, ja tagi nesakrīt (objekts nolikts nepareizajā vietā) 
             {
                 _object.rightPlace = false;
                 _object.audioSource.PlayOneShot(_object.audioClips[12]);
 
-                switch (_event.pointerDrag.tag)                                                       //atgriežām mašīnu savā vietā
+                switch (_event.pointerDrag.tag)                                                         //atgriežām mašīnu savā vietā
                 {
                     case "Ambulance":
                         _object.obj_amb.GetComponent<RectTransform>().localPosition = _object.crd_amb;

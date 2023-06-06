@@ -3,63 +3,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*----------------------------------------------------------------------------------------------------
+                        Skripts iespējai maiīt objekta izmēru un rotāciju
+ ----------------------------------------------------------------------------------------------------*/
 public class ObjectTransformation : MonoBehaviour
 {
-    public Objects objektuSkripts;
-    public float scale = 0.0005f;
-    public float rotate = 9f;
-    // Update is called once per frame
-    void Update()
+    public Objects _objects;                          //objekts, kas satur Objects skriptu
+    public float scale = 0.0005f;                     //mainīgais, kas ļauj kontrolēt izmēra maiņas ātrumu
+    public float rotate = 9f;                         //mainīgais, kas ļauj kontrolēt rotācijas maiņas ātrumu
+    
+    void Update()                                     //pēc katra kadra tiek pārbaudīts, vai ir nospiesta kāda poga
     {
-        if (objektuSkripts.lastDraggableObject != null)
+        if (_objects.lastDraggableObject != null)     //ja kāds objekts jau bija velkts
         {
-            if (Input.GetKey(KeyCode.Z))
+            if (Input.GetKey(KeyCode.Z))//------------//ja nospiesta Z - rotējam pretpulksteņradītāja virzienā 
             {
-                objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.Rotate(0, 0, Time.deltaTime * rotate);
+                _objects.lastDraggableObject.GetComponent<RectTransform>().transform.Rotate(0, 0, Time.deltaTime * rotate);
             }
 
-            if (Input.GetKey(KeyCode.X))
+            if (Input.GetKey(KeyCode.X))//------------//ja nospiesta X - rotējam pulksteņradītāja virzienā 
             {
-                objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.Rotate(0, 0, -Time.deltaTime * rotate);
+                _objects.lastDraggableObject.GetComponent<RectTransform>().transform.Rotate(0, 0, -Time.deltaTime * rotate);
             }   
 
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.UpArrow))//------//ja nospiesta bultiņa uz augšu - palielinām augstumu
             {
-                if (objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y < 1.5f)
+                if (_objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y < 1.5f)
                 {
-                    objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale
-                    = new Vector2(objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x,
-                        objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y + scale);
+                    _objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale
+                    = new Vector2(_objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x,
+                        _objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y + scale);
                 }
             }
 
-            if (Input.GetKey(KeyCode.DownArrow))
+            if (Input.GetKey(KeyCode.DownArrow))//----//ja nospiesta bultiņa uz apakšu - samazinām augstumu
             {
-                if (objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y > 0.3f)
+                if (_objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y > 0.3f)
                 {
-                    objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale
-                    = new Vector2(objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x,
-                        objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y - scale);
+                    _objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale
+                    = new Vector2(_objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x,
+                        _objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y - scale);
                 }
             }
 
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (Input.GetKey(KeyCode.LeftArrow))//----//ja nospiesta bultiņa pa kreisi - samazinām garumu
             {
-                if (objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x > 0.3f)
+                if (_objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x > 0.3f)
                 {
-                    objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale
-                    = new Vector2(objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x - scale,
-                        objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y);
+                    _objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale
+                    = new Vector2(_objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x - scale,
+                        _objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y);
                 }
             }
 
-            if (Input.GetKey(KeyCode.RightArrow))
+            if (Input.GetKey(KeyCode.RightArrow))//---//ja nospiesta bultiņa pa labi - palielinām garumu
             {
-                if (objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x < 1.5f)
+                if (_objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x < 1.5f)
                 {
-                    objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale
-                    = new Vector2(objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x + scale,
-                        objektuSkripts.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y);
+                    _objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale
+                    = new Vector2(_objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.x + scale,
+                        _objects.lastDraggableObject.GetComponent<RectTransform>().transform.localScale.y);
                 }
             }
         }
